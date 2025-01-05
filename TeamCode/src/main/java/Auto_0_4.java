@@ -25,7 +25,7 @@ public class Auto_0_4 extends OpMode {
     private int pathState = 0;
 
 
-    private final Pose STARTPOSE = new Pose(7.065,83.368, Math.toRadians(-90));
+    private final Pose STARTPOSE = new Pose(7.065,96.000, Math.toRadians(-90));
     private final Pose PRELOADPOSE = new Pose(12.845, 124.217, Math.toRadians(-55));
     private final Pose INTAKE1POSE = new Pose(45.73, 103.536, Math.toRadians(90));
     private final Pose INTAKE2POSE = new Pose(45.73, 111.757, Math.toRadians(90));
