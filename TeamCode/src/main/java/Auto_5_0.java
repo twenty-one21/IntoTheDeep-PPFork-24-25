@@ -36,7 +36,23 @@ public class Auto_5_0 extends OpMode {
     private int pathState = 0;
 
 
-    private final Pose STARTPOSE = new Pose(6.75,48.000, Math.toRadians(-90)); //Define poses
+    private final Pose STARTPOSE = new Pose(6.75,60, Math.toRadians(0)); //Define poses
+    private final Pose PRELOADPOSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PREPARE1POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PREPARE1CONTROL = new Pose(0,0,Math.toRadians(0));
+    private final Pose PUSH1POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PREPARE2POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PUSH2POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PREPARE3POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PUSH3POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose WALLPOSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose SCORE1POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose SCORE2POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose SCORE3POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose SCORE4POSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PARKPOSE = new Pose(0,0,Math.toRadians(0));
+    private final Pose PARKCONTROL = new Pose(0,0,Math.toRadians(0));
+
 
     private Path scorePreload; //Define paths
 
