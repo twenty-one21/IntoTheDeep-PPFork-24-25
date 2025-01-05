@@ -120,10 +120,9 @@ public class Auto_0_4 extends OpMode {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
-                    claw.setState(Claw.ClawState.CLOSE);
                     extendo.setTargetPos(Extendo.MAX);
                     intake.setState(Intake.intakeState.IN);
-                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT); //Maybe needs to be a different out position
 
                     setPathState(3);
                 }
@@ -139,6 +138,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 4:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.OUT); //might need delay
                     bar.setState(Bar.BarState.TRANSFER);
                     wrist.setState(Wrist.wristState.TRANSFER);
                     setPathState(5);
@@ -146,6 +146,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 5:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
                     claw.setState(Claw.ClawState.OPEN);
                     setPathState(6);
                 }
@@ -170,7 +171,6 @@ public class Auto_0_4 extends OpMode {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
-                    claw.setState(Claw.ClawState.CLOSE);
                     extendo.setTargetPos(Extendo.MAX);
                     intake.setState(Intake.intakeState.IN);
                     intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
@@ -189,6 +189,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 10:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.OUT);
                     bar.setState(Bar.BarState.TRANSFER);
                     wrist.setState(Wrist.wristState.TRANSFER);
                     setPathState(11);
@@ -196,6 +197,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 11:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
                     claw.setState(Claw.ClawState.OPEN);
                     setPathState(12);
                 }
@@ -220,7 +222,6 @@ public class Auto_0_4 extends OpMode {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
-                    claw.setState(Claw.ClawState.CLOSE);
                     extendo.setTargetPos(Extendo.MAX);
                     intake.setState(Intake.intakeState.IN);
                     intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
@@ -239,6 +240,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 16:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.OUT);
                     bar.setState(Bar.BarState.TRANSFER);
                     wrist.setState(Wrist.wristState.TRANSFER);
                     setPathState(17);
@@ -246,6 +248,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 17:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
                     claw.setState(Claw.ClawState.OPEN);
                     setPathState(18);
                 }
