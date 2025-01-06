@@ -21,7 +21,6 @@ public class FullTeleOpRed extends LinearOpMode {
     public Gamepad gp1;
     public Gamepad gp2;
     double looptime = 0.000;
-    double highestTime = 0.000;
     @Override
     public void waitForStart() {
         super.waitForStart();
@@ -46,7 +45,6 @@ public class FullTeleOpRed extends LinearOpMode {
 
         waitForStart();
         timer.reset();
-        highestTime = 0.000;
         while(opModeIsActive() && !isStopRequested()) {
             looptime = timer.milliseconds();
             bar.Loop();
@@ -59,9 +57,7 @@ public class FullTeleOpRed extends LinearOpMode {
             slides.Loop();
             wrist.Loop();
             actionHandler.Loop(gp1, gp2); // :)
-            if (looptime > highestTime) {
-                highestTime = looptime;
-            }
+            telemetry.addData("Loop time (ms)", looptime);
             telemetry.update();
             timer.reset();
         }
