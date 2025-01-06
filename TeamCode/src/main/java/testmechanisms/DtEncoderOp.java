@@ -14,8 +14,8 @@ public class DtEncoderOp extends OpMode {
     public void init(){
         a = hardwareMap.get(DcMotor.class, "rightFront");
         b = hardwareMap.get(DcMotor.class, "leftFront");
-        c = hardwareMap.get(DcMotor.class, "rightBack");
-        d = hardwareMap.get(DcMotor.class, "leftBack");
+        c = hardwareMap.get(DcMotor.class, "rightRear");
+        d = hardwareMap.get(DcMotor.class, "leftRear");
     }
     @Override
     public void loop() {

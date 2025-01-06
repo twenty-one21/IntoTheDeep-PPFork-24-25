@@ -149,7 +149,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 3:
-                if ((Math.abs(PREPARE1POSE.getX() - follower.getPose().getX()) <= 3) && (Math.abs(PREPARE1POSE.getY() - follower.getPose().getY()) <= 3)) {
+                if ((Math.abs(PREPARE1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE1POSE.getY() - follower.getPose().getY()) <= 1)) {
                     extendo.setTargetPos(Extendo.MAX);
                     intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
                     setPathState(4);
@@ -331,6 +331,7 @@ public class Auto_5_0 extends OpMode {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(STARTPOSE);
+        follower.setMaxPower(0.3);
         buildPaths();
 
         bar = new Bar();
