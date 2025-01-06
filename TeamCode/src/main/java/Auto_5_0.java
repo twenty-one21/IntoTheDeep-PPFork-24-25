@@ -144,9 +144,179 @@ public class Auto_5_0 extends OpMode {
             case 2:
                 if (pathTime.getElapsedTimeSeconds()>0.22) {
                     claw.setState(Claw.ClawState.OPEN);
+                    follower.followPath(prepare1, true);
+                    setPathState(3);
                 }
-
-
+                break;
+            case 3:
+                if ((Math.abs(PREPARE1POSE.getX() - follower.getPose().getX()) <= 3) && (Math.abs(PREPARE1POSE.getY() - follower.getPose().getY()) <= 3)) {
+                    extendo.setTargetPos(Extendo.MAX);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+                    setPathState(4);
+                }
+                break;
+            case 4:
+                if ((Math.abs(PREPARE1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    follower.followPath(push1);
+                    setPathState(5);
+                }
+                break;
+            case 5:
+                if ((Math.abs(PUSH1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PUSH1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    follower.followPath(prepare2);
+                    setPathState(6);
+                }
+                break;
+            case 6:
+                if ((Math.abs(PREPARE2POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE2POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    follower.followPath(push2);
+                    setPathState(7);
+                }
+                break;
+            case 7:
+                if ((Math.abs(PUSH2POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PUSH2POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    follower.followPath(prepare3);
+                    setPathState(8);
+                }
+                break;
+            case 8:
+                if ((Math.abs(PREPARE3POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE3POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    follower.followPath(push3);
+                    setPathState(9);
+                }
+                break;
+            case 9:
+                if (pathTime.getElapsedTimeSeconds() > 0.5) { //expected to be too early as of jan 5
+                    extendo.setTargetPos(Extendo.MIN);
+                    bar.setState(Bar.BarState.WALL);
+                    wrist.setState(Wrist.wristState.WALL);
+                    setPathState(10);
+                }
+                break;
+            case 10:
+                if ((Math.abs(PUSH3POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PUSH3POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    follower.followPath(push3ToWall);
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.MED);
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    claw.setState(Claw.ClawState.CLOSE);
+                    follower.followPath(score1);
+                    setPathState(12);
+                }
+                break;
+            case 12:
+                if ((Math.abs(SCORE1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.LOW);
+                    setPathState(13);
+                }
+                break;
+            case 13:
+                if (pathTime.getElapsedTimeSeconds()>0.22) {
+                    claw.setState(Claw.ClawState.OPEN);
+                    follower.followPath(score1ToWall, true);
+                    setPathState(14);
+                }
+                break;
+            case 14:
+                if (pathTime.getElapsedTimeSeconds() > 0.5) {
+                    bar.setState(Bar.BarState.WALL);
+                    wrist.setState(Wrist.wristState.WALL);
+                    setPathState(15);
+                }
+                break;
+            case 15:
+                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.MED);
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    claw.setState(Claw.ClawState.CLOSE);
+                    follower.followPath(score2);
+                    setPathState(16);
+                }
+                break;
+            case 16:
+                if ((Math.abs(SCORE2POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE2POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.LOW);
+                    setPathState(17);
+                }
+                break;
+            case 17:
+                if (pathTime.getElapsedTimeSeconds() > 0.22) {
+                    claw.setState(Claw.ClawState.OPEN);
+                    follower.followPath(score2ToWall, true);
+                    setPathState(18);
+                }
+                break;
+            case 18:
+                if (pathTime.getElapsedTimeSeconds() > 0.5) {
+                    bar.setState(Bar.BarState.WALL);
+                    wrist.setState(Wrist.wristState.WALL);
+                    setPathState(19);
+                }
+                break;
+            case 19:
+                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.MED);
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    claw.setState(Claw.ClawState.CLOSE);
+                    follower.followPath(score3);
+                    setPathState(20);
+                }
+                break;
+            case 20:
+                if ((Math.abs(SCORE3POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE3POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.LOW);
+                    setPathState(21);
+                }
+                break;
+            case 21:
+                if (pathTime.getElapsedTimeSeconds() > 0.22) {
+                    claw.setState(Claw.ClawState.OPEN);
+                    follower.followPath(score3ToWall, true);
+                    setPathState(22);
+                }
+                break;
+            case 22:
+                if (pathTime.getElapsedTimeSeconds() > 0.5) {
+                    bar.setState(Bar.BarState.WALL);
+                    wrist.setState(Wrist.wristState.WALL);
+                    setPathState(23);
+                }
+                break;
+            case 23:
+                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.MED);
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    claw.setState(Claw.ClawState.CLOSE);
+                    follower.followPath(score4);
+                    setPathState(24);
+                }
+                break;
+            case 24:
+                if ((Math.abs(SCORE4POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE4POSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.LOW);
+                    setPathState(25);
+                }
+                break;
+            case 25:
+                if (pathTime.getElapsedTimeSeconds() > 0.22) {
+                    claw.setState(Claw.ClawState.OPEN);
+                    follower.followPath(park, true);
+                    setPathState(26);
+                }
+                break;
+            case 26:
+                if (pathTime.getElapsedTimeSeconds() > 0.5) { //set bar wrist to a init-able position
+                    setPathState(27);
+                }
+                break;
         }
     }
     private void setPathState(int n) {
