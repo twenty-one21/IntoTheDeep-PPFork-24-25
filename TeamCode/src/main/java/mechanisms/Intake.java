@@ -35,6 +35,22 @@ public class Intake {
                 break;
         }
     }
+    public void Loop() {
+        switch (currentState) {
+            case IN:
+                intake.setPower(0.8);
+                break;
+            case OUT:
+                intake.setPower(-0.6);
+                break;
+            case STOP:
+                intake.setPower(0);
+                break;
+            default:
+                intake.setPower(0);
+                break;
+        }
+    }
 
     public void setState(intakeState state) {
         currentState = state;

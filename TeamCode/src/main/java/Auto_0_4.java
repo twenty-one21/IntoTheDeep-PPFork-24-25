@@ -322,6 +322,13 @@ public class Auto_0_4 extends OpMode {
     public void loop() {
         follower.update();
         updatePaths();
+        bar.Loop();
+        claw.Loop();
+        extendo.Loop();
+        intake.Loop();
+        intakeWrist.Loop();
+        slides.Loop();
+        wrist.Loop();
         telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
