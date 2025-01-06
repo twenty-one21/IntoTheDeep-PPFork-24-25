@@ -125,7 +125,27 @@ public class Auto_5_0 extends OpMode {
     }
     private void updatePaths() {
         switch (pathState) {
-            //Auto goes here
+            case 0:
+                extendo.setTargetPos(Extendo.MIN);
+                intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                slides.setTargetPos(Slides.MED);
+                bar.setState(Bar.BarState.CLIP);
+                wrist.setState(Wrist.wristState.CLIP);
+                claw.setState(Claw.ClawState.CLOSE);
+                follower.followPath(scorePreload, true);
+                setPathState(1);
+                break;
+            case 1:
+                if ((Math.abs(PRELOADPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PRELOADPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                    slides.setTargetPos(Slides.LOW);
+                    setPathState(2);
+                }
+                break;
+            case 2:
+                if (pathTime.getElapsedTimeSeconds()>0.22) {
+                    claw.setState(Claw.ClawState.OPEN);
+                }
+
 
         }
     }
@@ -135,7 +155,7 @@ public class Auto_5_0 extends OpMode {
     }
     @Override
     public void init() {
-        pathTime = new Timer();
+          pathTime = new Timer();
         totalTime = new Timer();
         totalTime.resetTimer();
         Constants.setConstants(FConstants.class, LConstants.class);
