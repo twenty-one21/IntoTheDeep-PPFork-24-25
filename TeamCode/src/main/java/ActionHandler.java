@@ -1,5 +1,3 @@
-import android.util.Log;
-
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -62,7 +60,7 @@ public class ActionHandler {
             intakeWristIn();
         }
         if (gp2.a) {
-            claw.setState(Claw.ClawState.CLOSE);
+            closeClawWall();
         }
 
         if (gp2.x) {
@@ -74,23 +72,21 @@ public class ActionHandler {
 
         //intake
         if (gp1.y && !intaking) {
-            intake();
+            intake(); //y
         }
         intakeCheck();
 
-        if (gp1.left_bumper) {
-            transfer();
+        if (gp2.dpad_up) {
+            transfer(); //gp1 left_bumper, gp2 L&R stick button for nudge
         }
         if (gp2.left_stick_button && gp2.right_stick_button) {
             nudge();
         }
 
         //bucket
-        if (gp2.dpad_up) {
-            highBucket();
-        }
+        highBucket(); //dpad_up
         if (gp2.dpad_down) {
-            slidesDown();
+            slidesDown(); //dpad_down
         }
 
         //reset
@@ -98,18 +94,14 @@ public class ActionHandler {
             resetIntakeWrist();
         }
         if (gp1.dpad_down) {
-            resetExtendo();
+            resetExtendo(); //dpad_down
         }
 
         TimedActions();
-
-        Log.d("ActionState", "Current Action State: " + currentActionState);
     }
 
     public void TimedActions() {
         long elapsedMs = timer.time(TimeUnit.MILLISECONDS);
-
-        Log.d("Timer", "Elapsed time: " + elapsedMs + "ms");
 
         switch (currentActionState) {
             //transfer
@@ -164,6 +156,7 @@ public class ActionHandler {
                 if (elapsedMs >= 220) {
                     claw.setState(Claw.ClawState.OPEN);
                     currentActionState = ActionState.IDLE;
+                    extendo.setTargetPos(Extendo.MIN);
                 }
                 break;
 
@@ -225,18 +218,24 @@ public class ActionHandler {
         bar.setState(Bar.BarState.WALL);
         wrist.setState(Wrist.wristState.WALL);
         intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+
     }
 
     private void intakeWristIn() {
         intakeWrist.setState(IntakeWrist.intakeWristState.IN);
     }
 
+    private void closeClawWall(){
+        claw.setState(Claw.ClawState.CLOSE);
+        bar.setState(Bar.BarState.NEUTRAL);
+        wrist.setState(Wrist.wristState.TRANSFER);
+    }
 
     private void intake() {
         extendo.setTargetPos(Extendo.MAX);
-        intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         intaking = true;
         intake.setState(Intake.intakeState.IN);
+        intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
     }
 
     private void resetIntakeWrist() {
@@ -315,6 +314,7 @@ public class ActionHandler {
     }
 
     private void slidesDown() {
+        extendo.setTargetPos(Extendo.MED);
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
         slides.setTargetPos(Slides.GROUND);
@@ -323,9 +323,9 @@ public class ActionHandler {
     }
 
     private void resetExtendo() {
-        extendo.setTargetPos(-700);
-        currentActionState = ActionState.RESETEXTENDO;
-        timer.reset();
+            extendo.setTargetPos(-700);
+            currentActionState = ActionState.RESETEXTENDO;
+            timer.reset();
     }
 
     public void clippos() {
@@ -336,6 +336,7 @@ public class ActionHandler {
     }
     public void clip_down(){
         slides.setTargetPos(Slides.GROUND);
+        extendo.setTargetPos(Extendo.MED);
         currentActionState = ActionState.CLIP;
         timer.reset();
     }
