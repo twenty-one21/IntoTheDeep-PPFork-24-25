@@ -275,6 +275,7 @@ public class Auto_0_4 extends OpMode {
                     wrist.setState(Wrist.wristState.BUCKET);
                     setPathState(-1);
                 }
+                break;
         }
     }
     private void setPathState(int n) {
