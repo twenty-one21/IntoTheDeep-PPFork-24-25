@@ -38,6 +38,8 @@ public class Slides {
 //        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
         double ff = 0;
         power = pid + ff;
+        slideLeft.setPower(power);
+        slideRight.setPower(power);
     }
     public void setTargetPos(int targetPos) {
         this.targetPos = targetPos;
