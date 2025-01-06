@@ -25,7 +25,7 @@ public class Auto_0_4 extends OpMode {
     private int pathState = 0;
 
 
-    private final Pose STARTPOSE = new Pose(7.065,83.368, Math.toRadians(-90));
+    private final Pose STARTPOSE = new Pose(7.065,96.000, Math.toRadians(-90));
     private final Pose PRELOADPOSE = new Pose(12.845, 124.217, Math.toRadians(-55));
     private final Pose INTAKE1POSE = new Pose(45.73, 103.536, Math.toRadians(90));
     private final Pose INTAKE2POSE = new Pose(45.73, 111.757, Math.toRadians(90));
@@ -104,13 +104,13 @@ public class Auto_0_4 extends OpMode {
                 slides.setTargetPos(slides.HIGH);
                 bar.setState(Bar.BarState.BUCKET);
                 wrist.setState(Wrist.wristState.BUCKET);
-                claw.setState(Claw.ClawState.CLOSE);
+                claw.setState(Claw.ClawState.OPEN);
                 follower.followPath(scorePreload); //Start -> preload score
                 setPathState(1);
                 break;
             case 1:
                 if ((Math.abs(PRELOADPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PRELOADPOSE.getY() - follower.getPose().getY()) <= 1)) {
-                    claw.setState(Claw.ClawState.OPEN);
+                    claw.setState(Claw.ClawState.CLOSE);
                     follower.followPath(grab1, true); //preload score -> samp1
                     setPathState(2);
                 }
@@ -120,10 +120,9 @@ public class Auto_0_4 extends OpMode {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
-                    claw.setState(Claw.ClawState.CLOSE);
                     extendo.setTargetPos(Extendo.MAX);
                     intake.setState(Intake.intakeState.IN);
-                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT); //Maybe needs to be a different out position
 
                     setPathState(3);
                 }
@@ -139,6 +138,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 4:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.OUT); //might need delay
                     bar.setState(Bar.BarState.TRANSFER);
                     wrist.setState(Wrist.wristState.TRANSFER);
                     setPathState(5);
@@ -146,6 +146,7 @@ public class Auto_0_4 extends OpMode {
                 break;
             case 5:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
                     claw.setState(Claw.ClawState.OPEN);
                     setPathState(6);
                 }
@@ -161,12 +162,119 @@ public class Auto_0_4 extends OpMode {
             case 7:
                 if (pathTime.getElapsedTimeSeconds() > 2) {
                     claw.setState(Claw.ClawState.CLOSE);
-                    follower.followPath(grab2, true);
+                    follower.followPath(grab2, true); //bucket -> samp2
                     setPathState(8);
                 }
                 break;
+            case 8:
+                if ((Math.abs(INTAKE2POSE.getX() - follower.getPose().getX()) <= 0.3) && (Math.abs(INTAKE2POSE.getY() - follower.getPose().getY()) <= 0.3)) {
+                    slides.setTargetPos(slides.GROUND);
+                    bar.setState(Bar.BarState.NEUTRAL);
+                    wrist.setState(Wrist.wristState.NEUTRAL);
+                    extendo.setTargetPos(Extendo.MAX);
+                    intake.setState(Intake.intakeState.IN);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
 
+                    setPathState(9);
+                }
+                break;
+            case 9:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
+                    extendo.setTargetPos(Extendo.MIN);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                    follower.followPath(score2, true); //Samp 2 -> bucket
+                    setPathState(10);
+                }
+                break;
+            case 10:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.OUT);
+                    bar.setState(Bar.BarState.TRANSFER);
+                    wrist.setState(Wrist.wristState.TRANSFER);
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
+                    claw.setState(Claw.ClawState.OPEN);
+                    setPathState(12);
+                }
+                break;
+            case 12:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    slides.setTargetPos(Slides.HIGH);
+                    bar.setState(Bar.BarState.BUCKET);
+                    wrist.setState(Wrist.wristState.BUCKET);
+                    setPathState(13);
+                }
+                break;
+            case 13:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    claw.setState(Claw.ClawState.CLOSE);
+                    follower.followPath(grab3, true); //bucket -> samp3
+                    setPathState(14);
+                }
+                break;
+            case 14:
+                if ((Math.abs(INTAKE3POSE.getX() - follower.getPose().getX()) <= 0.3) && (Math.abs(INTAKE3POSE.getY() - follower.getPose().getY()) <= 0.3)) {
+                    slides.setTargetPos(slides.GROUND);
+                    bar.setState(Bar.BarState.NEUTRAL);
+                    wrist.setState(Wrist.wristState.NEUTRAL);
+                    extendo.setTargetPos(Extendo.MAX);
+                    intake.setState(Intake.intakeState.IN);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
 
+                    setPathState(15);
+                }
+                break;
+            case 15:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
+                    extendo.setTargetPos(Extendo.MIN);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                    follower.followPath(score3, true); //Samp 3 -> bucket
+                    setPathState(16);
+                }
+                break;
+            case 16:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.OUT);
+                    bar.setState(Bar.BarState.TRANSFER);
+                    wrist.setState(Wrist.wristState.TRANSFER);
+                    setPathState(17);
+                }
+                break;
+            case 17:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    intake.setState(Intake.intakeState.STOP);
+                    claw.setState(Claw.ClawState.OPEN);
+                    setPathState(18);
+                }
+                break;
+            case 18:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    slides.setTargetPos(Slides.HIGH);
+                    bar.setState(Bar.BarState.BUCKET);
+                    wrist.setState(Wrist.wristState.BUCKET);
+                    setPathState(19);
+                }
+                break;
+            case 19:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    claw.setState(Claw.ClawState.CLOSE);
+                    follower.followPath(park, true); //bucket -> park
+                    setPathState(20);
+                }
+                break;
+            case 20:
+                if (pathTime.getElapsedTimeSeconds() > 2) {
+                    slides.setTargetPos(Slides.GROUND); //Hopefully no lvl 4
+                    bar.setState(Bar.BarState.BUCKET);
+                    wrist.setState(Wrist.wristState.BUCKET);
+                    setPathState(-1);
+                }
         }
     }
     private void setPathState(int n) {
