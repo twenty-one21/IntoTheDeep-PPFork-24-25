@@ -372,6 +372,7 @@ public class Auto_5_0 extends OpMode {
         slides.Loop();
         wrist.Loop();
         telemetry.addData("path state", pathState);
+        telemetry.addData("Elapsed Time", pathTime.getElapsedTimeSeconds());
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());

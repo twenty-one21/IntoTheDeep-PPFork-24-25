@@ -27,7 +27,7 @@ public class Auto_0_4 extends OpMode {
 
     private final Pose STARTPOSE = new Pose(7.065,96.000, Math.toRadians(-90));
     private final Pose PRELOADPOSE = new Pose(12.845, 124.217, Math.toRadians(-55));
-    private final Pose INTAKE1POSE = new Pose(45.73, 108.536, Math.toRadians(90));
+    private final Pose INTAKE1POSE = new Pose(45.73, 110.536, Math.toRadians(90));
     private final Pose INTAKE2POSE = new Pose(45.73, 116.757, Math.toRadians(90));
     private final Pose INTAKE3POSE = new Pose(45.73, 128.318, Math.toRadians(90));
     private final Pose BUCKETPOSE = new Pose(15.157, 126.786, Math.toRadians(-45));
@@ -323,14 +323,15 @@ public class Auto_0_4 extends OpMode {
     public void loop() {
         follower.update();
         updatePaths();
-        bar.Loop();
-        claw.Loop();
-        extendo.Loop();
-        intake.Loop();
-        intakeWrist.Loop();
-        slides.Loop();
-        wrist.Loop();
+//        bar.Loop();
+//        claw.Loop();
+//        extendo.Loop();
+//        intake.Loop();
+//        intakeWrist.Loop();
+//        slides.Loop();
+//        wrist.Loop();
         telemetry.addData("path state", pathState);
+        telemetry.addData("total time", totalTime);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
