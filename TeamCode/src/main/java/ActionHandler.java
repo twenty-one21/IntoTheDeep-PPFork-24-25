@@ -32,11 +32,12 @@ public class ActionHandler {
         TRANSFER_STAGE_4, //clawopen
         TRANSFER_STAGE_5,
         CLIP, //delay to wrist move
+        WALLPICKUP,
         HIGHBUCKET, //slides up BEFORE
-        SLIDESDOWN_STAGE_1, //extendo in
+        SLIDESDOWN, //extendo in
         RESETEXTENDO,
         RESETINTAKEWRIST_STAGE_1, RESETINTAKEWRIST_STAGE_2,
-        NUDGE1, NUDGE2, NUDGE3
+        NUDGE1, NUDGE2, NUDGE3, NUDGE4
     }
 
     public void init(Slides s, Extendo e, Bar b, Wrist w, Intake f, Claw c, IntakeWrist iw, Colorsensor cs, String alliance) {
@@ -55,9 +56,6 @@ public class ActionHandler {
         //clip
         if (gp2.b) {
             wallPickup();
-        }
-        if (gp1.x) {
-            intakeWristIn();
         }
         if (gp2.a) {
             closeClawWall();
@@ -83,10 +81,23 @@ public class ActionHandler {
             nudge();
         }
 
-        //bucket
-        highBucket(); //dpad_up
+        if (gp2.dpad_up) {
+            highBucket();
+        }
+        if (gp2.dpad_left){
+            claw.setState(Claw.ClawState.OPEN);
+        }
+
         if (gp2.dpad_down) {
             slidesDown(); //dpad_down
+        }
+
+        //extendo
+        if (gp1.right_bumper){
+            extendo.setTargetPos(Extendo.MAX);
+        }
+        if (gp1.right_trigger > 0.5){
+            extendo.setTargetPos(Extendo.MIN);
         }
 
         //reset
@@ -150,6 +161,18 @@ public class ActionHandler {
                     currentActionState = ActionState.IDLE;
                 }
                 break;
+            case SLIDESDOWN:
+                if (elapsedMs >= 200){
+                    slides.setTargetPos(Slides.GROUND);
+                    currentActionState = ActionState.IDLE;
+                }
+
+            //wall pickup
+            case WALLPICKUP:
+                if (elapsedMs >= 700){
+                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                    currentActionState = ActionState.IDLE;
+                }
 
             //clipping
             case CLIP:
@@ -202,10 +225,17 @@ public class ActionHandler {
             case NUDGE3:
                 if (elapsedMs >= 100) {
                     bar.setState(Bar.BarState.TRANSFER);
-                    currentActionState = ActionState.IDLE;
+                    currentActionState = ActionState.NUDGE4;
                     timer.reset();
                 }
                 break;
+            case NUDGE4:
+                if (elapsedMs >= 200){
+                    claw.setState(Claw.ClawState.OPEN);
+                    bar.setState(Bar.BarState.NEUTRAL);
+                    currentActionState = ActionState.IDLE;
+                    timer.reset();
+                }
 
             default:
                 currentActionState = ActionState.IDLE;
@@ -218,17 +248,19 @@ public class ActionHandler {
         bar.setState(Bar.BarState.WALL);
         wrist.setState(Wrist.wristState.WALL);
         intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
-
+        currentActionState = ActionState.WALLPICKUP;
+        timer.reset();
     }
-
-    private void intakeWristIn() {
+    public void clippos() {
+        bar.setState(Bar.BarState.CLIP);
+        wrist.setState(Wrist.wristState.CLIP);
+        slides.setTargetPos(Slides.MED);
         intakeWrist.setState(IntakeWrist.intakeWristState.IN);
     }
-
-    private void closeClawWall(){
-        claw.setState(Claw.ClawState.CLOSE);
-        bar.setState(Bar.BarState.NEUTRAL);
-        wrist.setState(Wrist.wristState.TRANSFER);
+    public void clip_down(){
+        slides.setTargetPos(Slides.GROUND);
+        currentActionState = ActionState.CLIP;
+        timer.reset();
     }
 
     private void intake() {
@@ -257,6 +289,7 @@ public class ActionHandler {
     }
 
     private void nudge(){
+        claw.setState(Claw.ClawState.CLOSE);
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
         currentActionState = ActionState.NUDGE1;
@@ -317,8 +350,7 @@ public class ActionHandler {
         extendo.setTargetPos(Extendo.MED);
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
-        slides.setTargetPos(Slides.GROUND);
-        currentActionState = ActionState.SLIDESDOWN_STAGE_1;
+        currentActionState = ActionState.SLIDESDOWN;
         timer.reset();
     }
 
@@ -326,18 +358,5 @@ public class ActionHandler {
             extendo.setTargetPos(-700);
             currentActionState = ActionState.RESETEXTENDO;
             timer.reset();
-    }
-
-    public void clippos() {
-        bar.setState(Bar.BarState.CLIP);
-        wrist.setState(Wrist.wristState.CLIP);
-        slides.setTargetPos(Slides.MED);
-        intakeWrist.setState(IntakeWrist.intakeWristState.IN);
-    }
-    public void clip_down(){
-        slides.setTargetPos(Slides.GROUND);
-        extendo.setTargetPos(Extendo.MED);
-        currentActionState = ActionState.CLIP;
-        timer.reset();
     }
 }
