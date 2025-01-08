@@ -52,12 +52,12 @@ public class ActionHandler {
         this.alliance = alliance;
     }
 
-    public void Loop(Gamepad gp1, Gamepad gp2) {
+    public void Loop(Gamepad gp1, Gamepad gp2) { //controls not final
         //clip
         if (gp2.b) {
             wallPickup();
         }
-        if (gp2.a) {
+        if (gp2.left_bumper) {
             claw.setState(Claw.ClawState.CLOSE);
         }
 
@@ -74,8 +74,8 @@ public class ActionHandler {
         }
         intakeCheck();
 
-        if (gp2.dpad_up) {
-            transfer(); //gp1 left_bumper, gp2 L&R stick button for nudge
+        if (gp1.left_bumper) {
+            transfer();
         }
         if (gp2.left_stick_button && gp2.right_stick_button) {
             nudge();
@@ -84,12 +84,12 @@ public class ActionHandler {
         if (gp2.dpad_up) {
             highBucket();
         }
-        if (gp2.dpad_left){
+        if (gp2.right_bumper){
             claw.setState(Claw.ClawState.OPEN);
         }
 
         if (gp2.dpad_down) {
-            slidesDown(); //dpad_down
+            slidesDown();
         }
 
         //extendo
@@ -105,7 +105,7 @@ public class ActionHandler {
             resetIntakeWrist();
         }
         if (gp1.dpad_down) {
-            resetExtendo(); //dpad_down
+            resetExtendo();
         }
 
         TimedActions();
