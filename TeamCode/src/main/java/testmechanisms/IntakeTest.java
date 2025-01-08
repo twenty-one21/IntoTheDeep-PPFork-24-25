@@ -1,10 +1,11 @@
 package testmechanisms;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@TeleOp(name="Intake", group = "testing")
 @Config
 public class IntakeTest {
     DcMotor intake;
