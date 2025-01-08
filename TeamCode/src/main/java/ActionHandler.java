@@ -58,7 +58,7 @@ public class ActionHandler {
             wallPickup();
         }
         if (gp2.a) {
-            closeClawWall();
+            claw.setState(Claw.ClawState.CLOSE);
         }
 
         if (gp2.x) {
