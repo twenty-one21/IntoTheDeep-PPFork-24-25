@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-@TeleOp(name="Intake", group = "testing")
+
 @Config
-public class IntakeTest {
+public class IntakeTest{
     DcMotor intake;
     public static double POWER = 0.00;
     public void init(HardwareMap hm) {
