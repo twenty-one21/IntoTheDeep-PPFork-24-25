@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class IntakeTestOpmode extends LinearOpMode {
     MultipleTelemetry dashboardTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     public IntakeTest intake = new IntakeTest();
-    public IntakeWristTest intakeWrist = new IntakeWristTest()
+    public IntakeWristTest intakeWrist = new IntakeWristTest();
     @Override
     public void waitForStart() {
         super.waitForStart();
