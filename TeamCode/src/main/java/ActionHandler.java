@@ -52,7 +52,7 @@ public class ActionHandler {
         this.alliance = alliance;
     }
 
-    public void Loop(Gamepad gp1, Gamepad gp2) { //controls not final
+    public void Loop(Gamepad gp1, Gamepad gp2) {
         //clip
         if (gp2.x) {
             wallPickup();
@@ -168,6 +168,7 @@ public class ActionHandler {
                     slides.setTargetPos(Slides.GROUND);
                     currentActionState = ActionState.IDLE;
                 }
+                break;
 
             //wall pickup
             case WALLPICKUP:
@@ -175,6 +176,7 @@ public class ActionHandler {
                     intakeWrist.setState(IntakeWrist.intakeWristState.IN);
                     currentActionState = ActionState.IDLE;
                 }
+                break;
 
             //clipping
             case CLIP:
@@ -235,8 +237,8 @@ public class ActionHandler {
                     claw.setState(Claw.ClawState.OPEN);
                     bar.setState(Bar.BarState.NEUTRAL);
                     currentActionState = ActionState.IDLE;
-                    timer.reset();
                 }
+                break;
 
             default:
                 currentActionState = ActionState.IDLE;
