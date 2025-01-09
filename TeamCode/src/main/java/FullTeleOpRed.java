@@ -3,6 +3,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mechanisms.*;
 
 @TeleOp(name="\uD83D\uDFE5 Red Teleop", group="Linear OpMode")
@@ -17,10 +20,12 @@ public class FullTeleOpRed extends LinearOpMode {
     public IntakeWrist intakeWrist = new IntakeWrist();
     public Wrist wrist = new Wrist();
     public ActionHandler actionHandler = new ActionHandler();
-    public ElapsedTime timer = new ElapsedTime();
+    public ElapsedTime loopTimer = new ElapsedTime();
+    public ElapsedTime opTimer = new ElapsedTime();
     public Gamepad gp1;
     public Gamepad gp2;
-    double looptime = 0.000;
+    private double loopTime, opTime;
+    private double[] highestTime = new double[2];
     @Override
     public void waitForStart() {
         super.waitForStart();
@@ -38,15 +43,17 @@ public class FullTeleOpRed extends LinearOpMode {
         slides.init(hardwareMap);
         wrist.init(hardwareMap);
         actionHandler.init(slides,extendo,bar,wrist,intake,claw,intakeWrist,colorsensor, "red");
-        timer.reset();
 
         gp1 = gamepad1;
         gp2 = gamepad2;
 
         waitForStart();
-        timer.reset();
+        highestTime = new double[]{0.000, 0};
+        loopTimer.reset();
+        opTimer.reset();
         while(opModeIsActive() && !isStopRequested()) {
-            looptime = timer.milliseconds();
+            loopTime = loopTimer.milliseconds();
+            opTime = opTimer.milliseconds();
             bar.Loop();
             colorsensor.Loop();
             claw.Loop();
@@ -57,9 +64,15 @@ public class FullTeleOpRed extends LinearOpMode {
             slides.Loop();
             wrist.Loop();
             actionHandler.Loop(gp1, gp2); // :)
-            telemetry.addData("Loop time (ms)", looptime);
+            telemetry.addData("Loop time (ms)", loopTime);
+            telemetry.addData("Op time (ms)", opTime);
+            telemetry.addData("High time (ms)", highestTime[0] + "; at " + highestTime[1]);
             telemetry.update();
-            timer.reset();
+            if (loopTime>highestTime[0] || (highestTime[1]-opTime > 5000)) { //If loop time is greater than the highest time OR 5 seconds have passed since last highest time
+                highestTime[0] = loopTime; //set highest time to loop time
+                highestTime[1] = opTime; //set timestamp to current time
+            }
+            loopTimer.reset();
         }
     }
 }
