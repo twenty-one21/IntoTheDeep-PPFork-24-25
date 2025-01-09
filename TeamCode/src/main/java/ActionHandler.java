@@ -52,25 +52,25 @@ public class ActionHandler {
         this.alliance = alliance;
     }
 
-    public void Loop(Gamepad gp1, Gamepad gp2) { //controls not final
+    public void Loop(Gamepad gp1, Gamepad gp2) {
         //clip
-        if (gp2.b) {
+        if (gp2.x) {
             wallPickup();
         }
         if (gp2.left_bumper) {
             claw.setState(Claw.ClawState.CLOSE);
         }
 
-        if (gp2.x) {
+        if (gp2.y) {
             clippos();
         }
-        if (gp2.y) {
+        if (gp2.a) {
             clip_down();
         }
 
         //intake
         if (gp1.y && !intaking) {
-            intake(); //y
+            intake();
         }
         intakeCheck();
 
@@ -95,15 +95,19 @@ public class ActionHandler {
         //extendo
         if (gp1.right_bumper){
             extendo.setTargetPos(Extendo.MAX);
+            intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         }
         if (gp1.right_trigger > 0.5){
+            intake.setState(Intake.intakeState.OUT);
+        }
+        if (gp1.left_trigger > 0.5){
             extendo.setTargetPos(Extendo.MIN);
         }
 
         //reset
-        if (gp1.left_trigger > 0.5) {
-            resetIntakeWrist();
-        }
+//        if (gp1.left_trigger > 0.5) {
+//            resetIntakeWrist();
+//        }
         if (gp1.dpad_down) {
             resetExtendo();
         }
@@ -166,6 +170,7 @@ public class ActionHandler {
                     slides.setTargetPos(Slides.GROUND);
                     currentActionState = ActionState.IDLE;
                 }
+                break;
 
             //wall pickup
             case WALLPICKUP:
@@ -173,13 +178,13 @@ public class ActionHandler {
                     intakeWrist.setState(IntakeWrist.intakeWristState.IN);
                     currentActionState = ActionState.IDLE;
                 }
+                break;
 
             //clipping
             case CLIP:
                 if (elapsedMs >= 220) {
                     claw.setState(Claw.ClawState.OPEN);
                     currentActionState = ActionState.IDLE;
-                    extendo.setTargetPos(Extendo.MIN);
                 }
                 break;
 
@@ -234,8 +239,8 @@ public class ActionHandler {
                     claw.setState(Claw.ClawState.OPEN);
                     bar.setState(Bar.BarState.NEUTRAL);
                     currentActionState = ActionState.IDLE;
-                    timer.reset();
                 }
+                break;
 
             default:
                 currentActionState = ActionState.IDLE;
@@ -255,7 +260,6 @@ public class ActionHandler {
         bar.setState(Bar.BarState.CLIP);
         wrist.setState(Wrist.wristState.CLIP);
         slides.setTargetPos(Slides.MED);
-        intakeWrist.setState(IntakeWrist.intakeWristState.IN);
     }
     public void clip_down(){
         slides.setTargetPos(Slides.GROUND);
