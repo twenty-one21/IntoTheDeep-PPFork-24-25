@@ -1,10 +1,11 @@
 package testmechanisms;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+@Config
 public class ExtendoTest {
     private PIDController controller; //from arcrobotics
     private double pid, power;

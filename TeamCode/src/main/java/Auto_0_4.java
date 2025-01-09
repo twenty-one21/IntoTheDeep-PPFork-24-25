@@ -32,7 +32,7 @@ public class Auto_0_4 extends OpMode {
     private final Pose INTAKE3POSE = new Pose(45.73, 128.318, Math.toRadians(90));
     private final Pose BUCKETPOSE = new Pose(15.157, 126.786, Math.toRadians(-45));
     private final Pose ASCENTPOSE = new Pose(60.631, 94.801, Math.toRadians(-90));
-    private final Pose ASCENTCONTROL1 = new Pose(63.072, 114.326);
+    private final Pose ASCENTCONTROL1 = new Pose(84, 129);
 
     private Path scorePreload, park;
     private PathChain grab1, grab2, grab3, score1, score2, score3;
@@ -290,7 +290,7 @@ public class Auto_0_4 extends OpMode {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(STARTPOSE);
-        follower.setMaxPower(0.3);
+        follower.setMaxPower(0.5);
         buildPaths();
 
         bar = new Bar();
@@ -323,13 +323,13 @@ public class Auto_0_4 extends OpMode {
     public void loop() {
         follower.update();
         updatePaths();
-//        bar.Loop();
-//        claw.Loop();
-//        extendo.Loop();
-//        intake.Loop();
-//        intakeWrist.Loop();
-//        slides.Loop();
-//        wrist.Loop();
+        bar.Loop();
+        claw.Loop();
+        extendo.Loop();
+        intake.Loop();
+        intakeWrist.Loop();
+        slides.Loop();
+        wrist.Loop();
         telemetry.addData("path state", pathState);
         telemetry.addData("total time", totalTime);
         telemetry.addData("x", follower.getPose().getX());
