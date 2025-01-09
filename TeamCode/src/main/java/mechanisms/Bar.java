@@ -11,9 +11,9 @@ public class Bar {
     public BarState currentState = BarState.NEUTRAL;
 
     public final double TRANSFER = 0.85; //as of jan 3
-    public final double WALL = 0.86;
+    public final double WALL = 0.9;
     public final double BUCKET = 0.20;
-    public final double CLIP = 0.40;
+    public final double CLIP = 0.402;
     public final double NEUTRAL = 0.70;
 
     public void init(HardwareMap hm) {

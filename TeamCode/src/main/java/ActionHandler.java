@@ -16,6 +16,11 @@ public class ActionHandler {
     private Colorsensor colorSensor;
 
     private boolean intaking = false;
+
+    //checks
+    private boolean resetExtendo = false;
+
+
     private String alliance;
 
     private ElapsedTime timer = new ElapsedTime();
@@ -66,6 +71,10 @@ public class ActionHandler {
         }
         if (gp2.a) {
             clip_down();
+        }
+        if (gp2.b){
+            bar.setState(Bar.BarState.NEUTRAL);
+            wrist.setState(Wrist.wristState.NEUTRAL);
         }
 
         //intake
@@ -248,10 +257,9 @@ public class ActionHandler {
     }
 
     private void wallPickup() {
-        claw.setState(Claw.ClawState.OPEN);
-        bar.setState(Bar.BarState.WALL);
         wrist.setState(Wrist.wristState.WALL);
-        intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+        bar.setState(Bar.BarState.WALL);
+        slides.setTargetPos(Slides.GROUND);
         currentActionState = ActionState.WALLPICKUP;
         timer.reset();
     }
