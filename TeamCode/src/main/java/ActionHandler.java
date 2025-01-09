@@ -19,7 +19,12 @@ public class ActionHandler {
 
     //checks
     private boolean resetExtendo = false;
-
+    private boolean slidesDown = false;
+    private boolean highBucket = false;
+    private boolean nudge = false;
+    private boolean transfer = false;
+    private boolean clipDown = false;
+    private boolean wallPickup = false;
 
     private String alliance;
 
@@ -59,7 +64,7 @@ public class ActionHandler {
 
     public void Loop(Gamepad gp1, Gamepad gp2) {
         //clip
-        if (gp2.x) {
+        if (gp2.x && !wallPickup) {
             wallPickup();
         }
         if (gp2.left_bumper) {
@@ -69,7 +74,7 @@ public class ActionHandler {
         if (gp2.y) {
             clippos();
         }
-        if (gp2.a) {
+        if (gp2.a && !clipDown) {
             clip_down();
         }
         if (gp2.b){
@@ -83,21 +88,21 @@ public class ActionHandler {
         }
         intakeCheck();
 
-        if (gp1.left_bumper) {
+        if (gp1.left_bumper && !transfer) {
             transfer();
         }
-        if (gp2.left_stick_button && gp2.right_stick_button) {
+        if (gp2.left_stick_button && gp2.right_stick_button & !nudge) {
             nudge();
         }
 
-        if (gp2.dpad_up) {
+        if (gp2.dpad_up && !highBucket) {
             highBucket();
         }
         if (gp2.right_bumper){
             claw.setState(Claw.ClawState.OPEN);
         }
 
-        if (gp2.dpad_down) {
+        if (gp2.dpad_down && !slidesDown) {
             slidesDown();
         }
 
@@ -116,7 +121,7 @@ public class ActionHandler {
 //        if (gp1.left_trigger > 0.5) {
 //            resetIntakeWrist();
 //        }
-        if (gp1.dpad_down) {
+        if (gp1.dpad_down && !resetExtendo) {
             resetExtendo();
         }
 
@@ -181,12 +186,12 @@ public class ActionHandler {
                 break;
 
             //wall pickup
-            case WALLPICKUP:
-                if (elapsedMs >= 700){
-                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
-                    currentActionState = ActionState.IDLE;
-                }
-                break;
+//            case WALLPICKUP:
+//                if (elapsedMs >= 700){
+//                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+//                    currentActionState = ActionState.IDLE;
+//                }
+//                break;
 
             //clipping
             case CLIP:
@@ -257,11 +262,13 @@ public class ActionHandler {
     }
 
     private void wallPickup() {
+        wallPickup = true;
         wrist.setState(Wrist.wristState.WALL);
         bar.setState(Bar.BarState.WALL);
         slides.setTargetPos(Slides.GROUND);
-        currentActionState = ActionState.WALLPICKUP;
+//        currentActionState = ActionState.WALLPICKUP;
         timer.reset();
+        wallPickup = false;
     }
     public void clippos() {
         bar.setState(Bar.BarState.CLIP);
@@ -269,9 +276,11 @@ public class ActionHandler {
         slides.setTargetPos(Slides.MED);
     }
     public void clip_down(){
+        clipDown = true;
         slides.setTargetPos(Slides.GROUND);
         currentActionState = ActionState.CLIP;
         timer.reset();
+        clipDown = false;
     }
 
     private void intake() {
@@ -288,6 +297,7 @@ public class ActionHandler {
     }
 
     private void transfer() {
+        transfer = true;
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
         claw.setState(Claw.ClawState.CLOSE);
@@ -296,14 +306,17 @@ public class ActionHandler {
         timer.reset();
         intake.setState(Intake.intakeState.STOP);
         intaking = false;
+        transfer = false;
     }
 
     private void nudge(){
+        nudge = true;
         claw.setState(Claw.ClawState.CLOSE);
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
         currentActionState = ActionState.NUDGE1;
         timer.reset();
+        nudge = false;
 
     }
 
@@ -351,21 +364,27 @@ public class ActionHandler {
     }
 
     private void highBucket() {
+        highBucket = true;
         slides.setTargetPos(Slides.HIGH);
         currentActionState = ActionState.HIGHBUCKET;
         timer.reset();
+        highBucket = false;
     }
 
     private void slidesDown() {
+        slidesDown = true;
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
         currentActionState = ActionState.SLIDESDOWN;
         timer.reset();
+        slidesDown = false;
     }
 
     private void resetExtendo() {
-            extendo.setTargetPos(-700);
-            currentActionState = ActionState.RESETEXTENDO;
-            timer.reset();
+        resetExtendo = true;
+        extendo.setTargetPos(-700);
+        currentActionState = ActionState.RESETEXTENDO;
+        timer.reset();
+        resetExtendo = false;
     }
 }
