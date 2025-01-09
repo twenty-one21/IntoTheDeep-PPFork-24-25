@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class IntakeWrist {
     private Servo intakeWrist;
-    public enum intakeWristState {IN, OUT};
+    public enum intakeWristState {IN, OUT, SUPEROUT};
     public intakeWristState currentState = intakeWristState.IN;
     public final double IN = 0.100;
     public final double OUT = 0.820; //Extendo out
@@ -20,6 +20,9 @@ public class IntakeWrist {
                 break;
             case OUT:
                 setPosition(OUT);
+                break;
+            case SUPEROUT:
+                setPosition(SUPEROUT);
                 break;
         }
     }

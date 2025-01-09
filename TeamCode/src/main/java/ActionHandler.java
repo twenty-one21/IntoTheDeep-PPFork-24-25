@@ -95,7 +95,6 @@ public class ActionHandler {
         //extendo
         if (gp1.right_bumper){
             extendo.setTargetPos(Extendo.MAX);
-            intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         }
         if (gp1.right_trigger > 0.5){
             intake.setState(Intake.intakeState.OUT);
@@ -268,10 +267,9 @@ public class ActionHandler {
     }
 
     private void intake() {
-        extendo.setTargetPos(Extendo.MAX);
         intaking = true;
         intake.setState(Intake.intakeState.IN);
-        intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+        intakeWrist.setState(IntakeWrist.intakeWristState.SUPEROUT);
     }
 
     private void resetIntakeWrist() {
@@ -351,7 +349,6 @@ public class ActionHandler {
     }
 
     private void slidesDown() {
-        extendo.setTargetPos(Extendo.MED);
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
         currentActionState = ActionState.SLIDESDOWN;
