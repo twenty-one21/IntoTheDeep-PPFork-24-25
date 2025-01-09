@@ -121,6 +121,13 @@ public class ActionHandler {
 //        if (gp1.left_trigger > 0.5) {
 //            resetIntakeWrist();
 //        }
+        if (gp1.touchpad_finger_1 && gp1.touchpad_finger_2){
+            intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+            intake.setState(Intake.intakeState.STOP);
+            intaking = false;
+            gp1.rumbleBlips(3);
+            gp2.rumbleBlips(3);
+        }
         if (gp1.dpad_down && !resetExtendo) {
             resetExtendo();
         }
