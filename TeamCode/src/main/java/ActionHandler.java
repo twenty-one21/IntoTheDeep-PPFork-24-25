@@ -54,17 +54,17 @@ public class ActionHandler {
 
     public void Loop(Gamepad gp1, Gamepad gp2) { //controls not final
         //clip
-        if (gp2.b) {
+        if (gp2.x) {
             wallPickup();
         }
         if (gp2.left_bumper) {
             claw.setState(Claw.ClawState.CLOSE);
         }
 
-        if (gp2.x) {
+        if (gp2.y) {
             clippos();
         }
-        if (gp2.y) {
+        if (gp2.a) {
             clip_down();
         }
 
@@ -95,15 +95,17 @@ public class ActionHandler {
         //extendo
         if (gp1.right_bumper){
             extendo.setTargetPos(Extendo.MAX);
+            intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         }
         if (gp1.right_trigger > 0.5){
             extendo.setTargetPos(Extendo.MIN);
+            intakeWrist.setState(IntakeWrist.intakeWristState.IN);
         }
 
         //reset
-        if (gp1.left_trigger > 0.5) {
-            resetIntakeWrist();
-        }
+//        if (gp1.left_trigger > 0.5) {
+//            resetIntakeWrist();
+//        }
         if (gp1.dpad_down) {
             resetExtendo();
         }
@@ -179,7 +181,6 @@ public class ActionHandler {
                 if (elapsedMs >= 220) {
                     claw.setState(Claw.ClawState.OPEN);
                     currentActionState = ActionState.IDLE;
-                    extendo.setTargetPos(Extendo.MIN);
                 }
                 break;
 
@@ -255,7 +256,6 @@ public class ActionHandler {
         bar.setState(Bar.BarState.CLIP);
         wrist.setState(Wrist.wristState.CLIP);
         slides.setTargetPos(Slides.MED);
-        intakeWrist.setState(IntakeWrist.intakeWristState.IN);
     }
     public void clip_down(){
         slides.setTargetPos(Slides.GROUND);
