@@ -70,7 +70,7 @@ public class ActionHandler {
 
         //intake
         if (gp1.y && !intaking) {
-            intake(); //y
+            intake();
         }
         intakeCheck();
 
@@ -98,8 +98,10 @@ public class ActionHandler {
             intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         }
         if (gp1.right_trigger > 0.5){
+            intake.setState(Intake.intakeState.OUT);
+        }
+        if (gp1.left_trigger > 0.5){
             extendo.setTargetPos(Extendo.MIN);
-            intakeWrist.setState(IntakeWrist.intakeWristState.IN);
         }
 
         //reset
