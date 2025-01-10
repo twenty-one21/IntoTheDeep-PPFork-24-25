@@ -108,6 +108,9 @@ public class ActionHandler {
         if (gp1.left_trigger > 0.5){
             extendo.setTargetPos(Extendo.MIN);
         }
+        if (gp1.options) {
+            intake.setState(Intake.intakeState.STOP);
+        }
 
         //reset
 //        if (gp1.left_trigger > 0.5) {
@@ -186,12 +189,13 @@ public class ActionHandler {
                 break;
 
             //wall pickup
-//            case WALLPICKUP:
-//                if (elapsedMs >= 700){
-//                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
-//                    currentActionState = ActionState.IDLE;
-//                }
-//                break;
+            case WALLPICKUP:
+                if (elapsedMs >= 700){
+                    bar.setState(Bar.BarState.WALL);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                    currentActionState = ActionState.IDLE;
+                }
+                break;
 
             //clipping
             case CLIP:
@@ -263,9 +267,8 @@ public class ActionHandler {
 
     private void wallPickup() {
         wrist.setState(Wrist.wristState.WALL);
-        bar.setState(Bar.BarState.WALL);
         slides.setTargetPos(Slides.GROUND);
-//        currentActionState = ActionState.WALLPICKUP;
+        currentActionState = ActionState.WALLPICKUP;
         timer.reset();
     }
     public void clippos() {
