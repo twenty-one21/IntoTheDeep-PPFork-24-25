@@ -168,7 +168,7 @@ public class ActionHandler {
             //wall pickup
             case WALLPICKUP:
                 if (elapsedMs >= 700){
-                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                    bar.setState(Bar.BarState.WALL);
                     currentActionState = ActionState.IDLE;
                 }
                 break;
@@ -249,9 +249,7 @@ public class ActionHandler {
 
     private void wallPickup() {
         claw.setState(Claw.ClawState.OPEN);
-        bar.setState(Bar.BarState.WALL);
         wrist.setState(Wrist.wristState.WALL);
-        intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         currentActionState = ActionState.WALLPICKUP;
         timer.reset();
     }
