@@ -130,30 +130,22 @@ public class ActionHandler {
                 break;
             case TRANSFER_STAGE_2:
                 if (elapsedMs >= 500) {
-                    intake.setState(Intake.intakeState.OUT);
+                    bar.setState(Bar.BarState.TRANSFER);
+                    wrist.setState(Wrist.wristState.TRANSFER);
                     currentActionState = ActionState.TRANSFER_STAGE_3;
                     timer.reset();
                 }
                 break;
             case TRANSFER_STAGE_3:
-                if (elapsedMs >= 1000) {
-                    intake.setState(Intake.intakeState.STOP);
-                    bar.setState(Bar.BarState.TRANSFER);
-                    wrist.setState(Wrist.wristState.TRANSFER);
+                if (elapsedMs >= 500) {
+                    claw.setState(Claw.ClawState.CLOSE);
                     currentActionState = ActionState.TRANSFER_STAGE_4;
                     timer.reset();
                 }
                 break;
             case TRANSFER_STAGE_4:
-                if (elapsedMs >= 250) {
-                    claw.setState(Claw.ClawState.OPEN);
-                    currentActionState = ActionState.TRANSFER_STAGE_5;
-                    timer.reset();
-                }
-                break;
-            case TRANSFER_STAGE_5:
                 if (elapsedMs >= 500) {
-                    bar.setState(Bar.BarState.NEUTRAL);
+                    bar.setState(Bar.BarState.TRANSFERUP);
                     currentActionState = ActionState.IDLE;
                 }
                 break;
@@ -289,13 +281,12 @@ public class ActionHandler {
     }
 
     private void transfer() {
-        bar.setState(Bar.BarState.NEUTRAL);
+        bar.setState(Bar.BarState.TRANSFERUP);
         wrist.setState(Wrist.wristState.TRANSFER);
-        claw.setState(Claw.ClawState.CLOSE);
+        claw.setState(Claw.ClawState.OPEN);
         intakeWrist.setState(IntakeWrist.intakeWristState.IN);
         currentActionState = ActionState.TRANSFER_STAGE_1;
         timer.reset();
-        intake.setState(Intake.intakeState.STOP);
         intaking = false;
     }
 
