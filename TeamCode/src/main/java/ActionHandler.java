@@ -33,6 +33,7 @@ public class ActionHandler {
         TRANSFER_STAGE_5,
         CLIP, //delay to wrist move
         WALLPICKUP,
+        GETOFFWALL,
         HIGHBUCKET, //slides up BEFORE
         SLIDESDOWN, //extendo in
         RESETEXTENDO,
@@ -179,6 +180,12 @@ public class ActionHandler {
                     currentActionState = ActionState.IDLE;
                 }
                 break;
+            case GETOFFWALL:
+                if (elapsedMs >= 700){
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    currentActionState = ActionState.IDLE;
+                }
 
             //clipping
             case CLIP:
@@ -257,9 +264,9 @@ public class ActionHandler {
         timer.reset();
     }
     public void clippos() {
-        bar.setState(Bar.BarState.CLIP);
-        wrist.setState(Wrist.wristState.CLIP);
         slides.setTargetPos(Slides.MED);
+        currentActionState = ActionState.GETOFFWALL;
+        timer.reset();
     }
     public void clip_down(){
         slides.setTargetPos(Slides.GROUND);
