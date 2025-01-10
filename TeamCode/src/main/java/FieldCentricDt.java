@@ -3,23 +3,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.HashMap;
-import java.util.Map;
+import mechanisms.Bar;
+import mechanisms.Claw;
+import mechanisms.Colorsensor;
+import mechanisms.Drivetrain;
+import mechanisms.Extendo;
+import mechanisms.Intake;
+import mechanisms.IntakeWrist;
+import mechanisms.Slides;
+import mechanisms.Wrist;
 
-import mechanisms.*;
-
-@TeleOp(name="\uD83D\uDFE5 Red Teleop", group="Linear OpMode")
-public class FullTeleOpRed extends LinearOpMode {
-    public Bar bar = new Bar();
-    public Claw claw = new Claw();
-    public Colorsensor colorsensor = new Colorsensor();
-    public Slides slides = new Slides();
+@TeleOp(name="field centirc..... hello..........", group="Linear OpMode")
+public class FieldCentricDt extends LinearOpMode {
     public Drivetrain drivetrain = new Drivetrain();
-    public Extendo extendo = new Extendo();
-    public Intake intake = new Intake();
-    public IntakeWrist intakeWrist = new IntakeWrist();
-    public Wrist wrist = new Wrist();
-    public ActionHandler actionHandler = new ActionHandler();
     public ElapsedTime loopTimer = new ElapsedTime();
     public ElapsedTime opTimer = new ElapsedTime();
     public Gamepad gp1;
@@ -33,17 +29,7 @@ public class FullTeleOpRed extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        bar.init(hardwareMap);
-        claw.init(hardwareMap);
-        colorsensor.init(hardwareMap);
         drivetrain.init(hardwareMap);
-        extendo.init(hardwareMap);
-        intake.init(hardwareMap);
-        intakeWrist.init(hardwareMap);
-        slides.init(hardwareMap);
-        wrist.init(hardwareMap);
-        actionHandler.init(slides,extendo,bar,wrist,intake,claw,intakeWrist,colorsensor, "red");
-
         gp1 = gamepad1;
         gp2 = gamepad2;
 
@@ -54,16 +40,7 @@ public class FullTeleOpRed extends LinearOpMode {
         while(opModeIsActive() && !isStopRequested()) {
             loopTime = loopTimer.milliseconds();
             opTime = opTimer.milliseconds();
-            bar.Loop();
-            colorsensor.Loop();
-            claw.Loop();
             drivetrain.Loop(gp1, gp2); //Gamepad inputs handled by class
-            extendo.Loop();
-            intake.Loop(gp1, gp2); //Gamepad needed to rumble
-            intakeWrist.Loop();
-            slides.Loop();
-            wrist.Loop();
-            actionHandler.Loop(gp1, gp2); // :)
             telemetry.addData("Loop time (ms)", loopTime);
             telemetry.addData("Op time (ms)", opTime);
             telemetry.addData("High time (ms)", highestTime[0] + "; at " + highestTime[1]);

@@ -9,7 +9,7 @@ public class Claw {
     public enum ClawState {CLOSE, OPEN}
     public ClawState currentState = ClawState.CLOSE;
 
-    public final double OPEN = 0.737;
+    public final double OPEN = 0.717;
     public final double CLOSE = 0.851;
 
     public void init(HardwareMap hm) {
