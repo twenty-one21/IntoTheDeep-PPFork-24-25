@@ -34,6 +34,7 @@ public class ActionHandler {
         TRANSFER_STAGE_5,
         CLIP, //delay to wrist move
         WALLPICKUP,
+        GETOFFWALL,
         HIGHBUCKET, //slides up BEFORE
         SLIDESDOWN, //extendo in
         RESETEXTENDO,
@@ -144,30 +145,22 @@ public class ActionHandler {
                 break;
             case TRANSFER_STAGE_2:
                 if (elapsedMs >= 500) {
-                    intake.setState(Intake.intakeState.OUT);
+                    bar.setState(Bar.BarState.TRANSFER);
+                    wrist.setState(Wrist.wristState.TRANSFER);
                     currentActionState = ActionState.TRANSFER_STAGE_3;
                     timer.reset();
                 }
                 break;
             case TRANSFER_STAGE_3:
-                if (elapsedMs >= 1000) {
-                    intake.setState(Intake.intakeState.STOP);
-                    bar.setState(Bar.BarState.TRANSFER);
-                    wrist.setState(Wrist.wristState.TRANSFER);
+                if (elapsedMs >= 500) {
+                    claw.setState(Claw.ClawState.CLOSE);
                     currentActionState = ActionState.TRANSFER_STAGE_4;
                     timer.reset();
                 }
                 break;
             case TRANSFER_STAGE_4:
-                if (elapsedMs >= 250) {
-                    claw.setState(Claw.ClawState.OPEN);
-                    currentActionState = ActionState.TRANSFER_STAGE_5;
-                    timer.reset();
-                }
-                break;
-            case TRANSFER_STAGE_5:
                 if (elapsedMs >= 500) {
-                    bar.setState(Bar.BarState.NEUTRAL);
+                    bar.setState(Bar.BarState.TRANSFERUP);
                     currentActionState = ActionState.IDLE;
                     transferring = false;
                 }
@@ -192,10 +185,15 @@ public class ActionHandler {
             case WALLPICKUP:
                 if (elapsedMs >= 700){
                     bar.setState(Bar.BarState.WALL);
-                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
                     currentActionState = ActionState.IDLE;
                 }
                 break;
+            case GETOFFWALL:
+                if (elapsedMs >= 700){
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    currentActionState = ActionState.IDLE;
+                }
 
             //clipping
             case CLIP:
@@ -266,15 +264,16 @@ public class ActionHandler {
     }
 
     private void wallPickup() {
+        claw.setState(Claw.ClawState.OPEN);
         wrist.setState(Wrist.wristState.WALL);
-        slides.setTargetPos(Slides.GROUND);
+
         currentActionState = ActionState.WALLPICKUP;
         timer.reset();
     }
     public void clippos() {
-        bar.setState(Bar.BarState.CLIP);
-        wrist.setState(Wrist.wristState.CLIP);
         slides.setTargetPos(Slides.MED);
+        currentActionState = ActionState.GETOFFWALL;
+        timer.reset();
     }
     public void clip_down(){
         slides.setTargetPos(Slides.GROUND);
@@ -296,13 +295,12 @@ public class ActionHandler {
     }
 
     private void transfer() {
-        bar.setState(Bar.BarState.NEUTRAL);
+        bar.setState(Bar.BarState.TRANSFERUP);
         wrist.setState(Wrist.wristState.TRANSFER);
-        claw.setState(Claw.ClawState.CLOSE);
+        claw.setState(Claw.ClawState.OPEN);
         intakeWrist.setState(IntakeWrist.intakeWristState.IN);
         currentActionState = ActionState.TRANSFER_STAGE_1;
         timer.reset();
-        intake.setState(Intake.intakeState.STOP);
         intaking = false;
     }
 

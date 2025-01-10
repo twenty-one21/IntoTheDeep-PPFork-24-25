@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bar {
     private Servo barServoRight;
-    public enum BarState {TRANSFER, WALL, BUCKET, CLIP, NEUTRAL}
+    public enum BarState {TRANSFERUP, TRANSFER, WALL, BUCKET, CLIP, NEUTRAL}
     public BarState currentState = BarState.NEUTRAL;
 
+    public final double TRANSFERUP = 0.9; //figure out
     public final double TRANSFER = 0.85; //as of jan 3
     public final double WALL = 0.9;
     public final double BUCKET = 0.20;
@@ -23,6 +24,8 @@ public class Bar {
 
     public void Loop() {
         switch(currentState) {
+            case TRANSFERUP:
+                setPos(TRANSFERUP);
             case TRANSFER:
                 setPos(TRANSFER);
                 break;
