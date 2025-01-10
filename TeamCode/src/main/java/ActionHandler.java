@@ -285,7 +285,11 @@ public class ActionHandler {
     private void intake() {
         intaking = true;
         intake.setState(Intake.intakeState.IN);
-        intakeWrist.setState(IntakeWrist.intakeWristState.SUPEROUT);
+        if (extendo.getPos() == Extendo.MAX) {
+            intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+        } else {
+            intakeWrist.setState(IntakeWrist.intakeWristState.SUPEROUT);
+        }
     }
 
     private void resetIntakeWrist() {
