@@ -136,7 +136,7 @@ public class Auto_5_0 extends OpMode {
                 setPathState(1);
                 break;
             case 1:
-                if ((Math.abs(PRELOADPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PRELOADPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.LOW);
                     setPathState(2);
                 }
@@ -156,31 +156,31 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 4:
-                if ((Math.abs(PREPARE1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     follower.followPath(push1);
                     setPathState(5);
                 }
                 break;
             case 5:
-                if ((Math.abs(PUSH1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PUSH1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     follower.followPath(prepare2);
                     setPathState(6);
                 }
                 break;
             case 6:
-                if ((Math.abs(PREPARE2POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE2POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     follower.followPath(push2);
                     setPathState(7);
                 }
                 break;
             case 7:
-                if ((Math.abs(PUSH2POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PUSH2POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     follower.followPath(prepare3);
                     setPathState(8);
                 }
                 break;
             case 8:
-                if ((Math.abs(PREPARE3POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE3POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     follower.followPath(push3);
                     setPathState(9);
                 }
@@ -194,13 +194,13 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 10:
-                if ((Math.abs(PUSH3POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PUSH3POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     follower.followPath(push3ToWall);
                     setPathState(11);
                 }
                 break;
             case 11:
-                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.MED);
                     bar.setState(Bar.BarState.CLIP);
                     wrist.setState(Wrist.wristState.CLIP);
@@ -210,7 +210,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 12:
-                if ((Math.abs(SCORE1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if ((!follower.isBusy())) {
                     slides.setTargetPos(Slides.LOW);
                     setPathState(13);
                 }
@@ -230,7 +230,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 15:
-                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.MED);
                     bar.setState(Bar.BarState.CLIP);
                     wrist.setState(Wrist.wristState.CLIP);
@@ -240,7 +240,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 16:
-                if ((Math.abs(SCORE2POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE2POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.LOW);
                     setPathState(17);
                 }
@@ -260,7 +260,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 19:
-                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.MED);
                     bar.setState(Bar.BarState.CLIP);
                     wrist.setState(Wrist.wristState.CLIP);
@@ -270,7 +270,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 20:
-                if ((Math.abs(SCORE3POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE3POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.LOW);
                     setPathState(21);
                 }
@@ -290,7 +290,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 23:
-                if ((Math.abs(WALLPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(WALLPOSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.MED);
                     bar.setState(Bar.BarState.CLIP);
                     wrist.setState(Wrist.wristState.CLIP);
@@ -300,7 +300,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 24:
-                if ((Math.abs(SCORE4POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(SCORE4POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(Slides.LOW);
                     setPathState(25);
                 }

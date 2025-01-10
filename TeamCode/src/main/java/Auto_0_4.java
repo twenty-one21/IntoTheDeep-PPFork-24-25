@@ -104,19 +104,19 @@ public class Auto_0_4 extends OpMode {
                 slides.setTargetPos(slides.HIGH);
                 bar.setState(Bar.BarState.BUCKET);
                 wrist.setState(Wrist.wristState.BUCKET);
-                claw.setState(Claw.ClawState.OPEN);
+                claw.setState(Claw.ClawState.CLOSE); //holding sample the other way
                 follower.followPath(scorePreload); //Start -> preload score
                 setPathState(1);
                 break;
             case 1:
-                if ((Math.abs(PRELOADPOSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PRELOADPOSE.getY() - follower.getPose().getY()) <= 1)) {
-                    claw.setState(Claw.ClawState.CLOSE);
+                if (!follower.isBusy()) {
+                    claw.setState(Claw.ClawState.OPEN);
                     follower.followPath(grab1, true); //preload score -> samp1
                     setPathState(2);
                 }
                 break;
             case 2:
-                if ((Math.abs(INTAKE1POSE.getX() - follower.getPose().getX()) <= 0.3) && (Math.abs(INTAKE1POSE.getY() - follower.getPose().getY()) <= 0.3)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
@@ -167,7 +167,7 @@ public class Auto_0_4 extends OpMode {
                 }
                 break;
             case 8:
-                if ((Math.abs(INTAKE2POSE.getX() - follower.getPose().getX()) <= 0.3) && (Math.abs(INTAKE2POSE.getY() - follower.getPose().getY()) <= 0.3)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
@@ -218,7 +218,7 @@ public class Auto_0_4 extends OpMode {
                 }
                 break;
             case 14:
-                if ((Math.abs(INTAKE3POSE.getX() - follower.getPose().getX()) <= 0.3) && (Math.abs(INTAKE3POSE.getY() - follower.getPose().getY()) <= 0.3)) {
+                if (!follower.isBusy()) {
                     slides.setTargetPos(slides.GROUND);
                     bar.setState(Bar.BarState.NEUTRAL);
                     wrist.setState(Wrist.wristState.NEUTRAL);
