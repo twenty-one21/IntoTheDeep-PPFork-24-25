@@ -15,7 +15,7 @@ public class ActionHandler {
     private IntakeWrist intakeWrist;
     private Colorsensor colorSensor;
 
-    private boolean intaking = false;
+    private boolean intaking, transferring = false;
 
     private String alliance;
 
@@ -79,8 +79,9 @@ public class ActionHandler {
         }
         intakeCheck();
 
-        if (gp1.left_bumper) {
+        if (gp1.left_bumper && !transferring) {
             transfer();
+            transferring = true;
         }
         if (gp2.left_stick_button && gp2.right_stick_button) {
             nudge();
@@ -165,6 +166,7 @@ public class ActionHandler {
                 if (elapsedMs >= 500) {
                     bar.setState(Bar.BarState.NEUTRAL);
                     currentActionState = ActionState.IDLE;
+                    transferring = false;
                 }
                 break;
 
