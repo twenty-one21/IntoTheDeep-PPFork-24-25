@@ -20,7 +20,6 @@ public class ActionHandler {
     //checks
     private boolean resetExtendo = false;
     private boolean slidesDown = false;
-    private boolean highBucket = false;
     private boolean nudge = false;
     private boolean transfer = false;
     private boolean clipDown = false;
@@ -95,7 +94,7 @@ public class ActionHandler {
             nudge();
         }
 
-        if (gp2.dpad_up && !highBucket) {
+        if (gp2.dpad_up) {
             highBucket();
         }
         if (gp2.right_bumper){
@@ -371,11 +370,9 @@ public class ActionHandler {
     }
 
     private void highBucket() {
-        highBucket = true;
         slides.setTargetPos(Slides.HIGH);
         currentActionState = ActionState.HIGHBUCKET;
         timer.reset();
-        highBucket = false;
     }
 
     private void slidesDown() {
