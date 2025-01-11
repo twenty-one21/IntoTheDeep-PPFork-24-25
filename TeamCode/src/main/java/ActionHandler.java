@@ -41,7 +41,7 @@ public class ActionHandler {
         SLIDESDOWN, //extendo in
         RESETEXTENDO,
         RESETINTAKEWRIST_STAGE_1, RESETINTAKEWRIST_STAGE_2,
-        NUDGE1, NUDGE2, NUDGE3, NUDGE4
+        NUDGE1, NUDGE2, NUDGE3, CLIPPOS, NUDGE4
     }
 
     public void init(Slides s, Extendo e, Bar b, Wrist w, Intake f, Claw c, IntakeWrist iw, Colorsensor cs, String alliance) {
@@ -114,7 +114,11 @@ public class ActionHandler {
             extendo.setTargetPos(Extendo.MAX);
             extendoout = true;
             if (intakeWrist.currentState != IntakeWrist.intakeWristState.IN) {
-                intake.setState(Intake.intakeState.OUT);
+                if (isExtendoout()) {
+                    intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
+                } else {
+                    intakeWrist.setState(IntakeWrist.intakeWristState.SUPEROUT);
+                }
             }
         }
         if (gp1.left_trigger > 0.8){
@@ -208,7 +212,6 @@ public class ActionHandler {
             case WALLPICKUP:
                 if (elapsedMs >= 500){
                     bar.setState(Bar.BarState.WALL);
-                    wrist.setState(Wrist.wristState.WALL);
                     intakeWrist.setState(IntakeWrist.intakeWristState.IN);
                     currentActionState = ActionState.IDLE;
                 }
@@ -216,7 +219,7 @@ public class ActionHandler {
 
             //clipping
             case CLIP:
-                if (elapsedMs >= 220) {
+                if (elapsedMs >= 200) {
                     claw.setState(Claw.ClawState.OPEN);
                     currentActionState = ActionState.IDLE;
                 }
@@ -275,6 +278,13 @@ public class ActionHandler {
                     currentActionState = ActionState.IDLE;
                 }
                 break;
+            case CLIPPOS:
+                if (elapsedMs >= 500) {
+                    bar.setState(Bar.BarState.CLIP);
+                    wrist.setState(Wrist.wristState.CLIP);
+                    currentActionState = ActionState.IDLE;
+                }
+                break;
 
             default:
                 currentActionState = ActionState.IDLE;
@@ -284,13 +294,14 @@ public class ActionHandler {
 
     private void wallPickup() {
         slides.setTargetPos(Slides.GROUND);
+        wrist.setState(Wrist.wristState.WALL);
         currentActionState = ActionState.WALLPICKUP;
         timer.reset();
     }
     public void clippos() {
-        bar.setState(Bar.BarState.CLIP);
-        wrist.setState(Wrist.wristState.CLIP);
         slides.setTargetPos(Slides.MED);
+        currentActionState = ActionState.CLIPPOS;
+        timer.reset();
     }
     public void clip_down(){
         slides.setTargetPos(Slides.GROUND);
