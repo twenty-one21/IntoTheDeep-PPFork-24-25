@@ -38,7 +38,7 @@ public class Intake {
     public void Loop() {
         switch (currentState) {
             case IN:
-                intake.setPower(0.8);
+                intake.setPower(1);
                 break;
             case OUT:
                 intake.setPower(-0.6);

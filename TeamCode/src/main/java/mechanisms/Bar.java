@@ -11,7 +11,7 @@ public class Bar {
     public BarState currentState = BarState.NEUTRAL;
 
     public final double TRANSFER = 0.77; //as of jan 10 new intake
-    public final double WALL = 0.9;
+    public final double WALL = 0.85;
     public final double BUCKET = 0.20;
     public final double CLIP = 0.402;
     public static final double NEUTRAL = 0.6;

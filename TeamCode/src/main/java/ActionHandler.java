@@ -110,14 +110,15 @@ public class ActionHandler {
             extendo.setTargetPos(Extendo.MAX);
             extendoout = true;
         }
-        if (gp1.right_trigger > 0.5){
+        if (gp1.right_trigger > 0.8){
             extendo.setTargetPos(Extendo.MAX);
             extendoout = true;
             if (intakeWrist.currentState != IntakeWrist.intakeWristState.IN) {
                 intake.setState(Intake.intakeState.OUT);
             }
         }
-        if (gp1.left_trigger > 0.5){
+        if (gp1.left_trigger > 0.8){
+            intakeWrist.setState(IntakeWrist.intakeWristState.IN);
             extendo.setTargetPos(Extendo.MIN);
             extendoout = false;
         }
@@ -149,7 +150,7 @@ public class ActionHandler {
         switch (currentActionState) {
             //transfer
             case TRANSFER_STAGE_1:
-                if (elapsedMs >= 500) {
+                if (elapsedMs >= 200) {
                     extendo.setTargetPos(Extendo.MIN);
                     extendoout = false;
                     currentActionState = ActionState.TRANSFER_STAGE_2;
@@ -166,7 +167,7 @@ public class ActionHandler {
                 }
                 break;
             case TRANSFER_STAGE_3:
-                if (elapsedMs >= 600) {
+                if (elapsedMs >= 1000) {
                     bar.setState(Bar.BarState.TRANSFER);
                     wrist.setState(Wrist.wristState.TRANSFER);
                     currentActionState = ActionState.TRANSFER_STAGE_4;
@@ -182,7 +183,7 @@ public class ActionHandler {
                 break;
             case TRANSFER_STAGE_5:
                 if (elapsedMs >= 500) {
-                    bar.setState(Bar.BarState.NEUTRAL);
+//                    bar.setState(Bar.BarState.NEUTRAL);
                     currentActionState = ActionState.IDLE;
                     transferring = false;
                 }
