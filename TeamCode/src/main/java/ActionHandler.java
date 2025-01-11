@@ -16,6 +16,7 @@ public class ActionHandler {
     private Colorsensor colorSensor;
 
     private boolean intaking, transferring = false;
+    private boolean extendoout = false;
 
     private String alliance;
 
@@ -101,12 +102,14 @@ public class ActionHandler {
         //extendo
         if (gp1.right_bumper){
             extendo.setTargetPos(Extendo.MAX);
+            extendoout = true;
         }
         if (gp1.right_trigger > 0.5){
             intake.setState(Intake.intakeState.OUT);
         }
         if (gp1.left_trigger > 0.5){
             extendo.setTargetPos(Extendo.MIN);
+            extendoout = false;
         }
         if (gp1.options) {
             intake.setState(Intake.intakeState.STOP);
@@ -138,6 +141,7 @@ public class ActionHandler {
             case TRANSFER_STAGE_1:
                 if (elapsedMs >= 500) {
                     extendo.setTargetPos(Extendo.MIN);
+                    extendoout = false;
                     currentActionState = ActionState.TRANSFER_STAGE_2;
                     timer.reset();
                 }
@@ -285,7 +289,7 @@ public class ActionHandler {
     private void intake() {
         intaking = true;
         intake.setState(Intake.intakeState.IN);
-        if (extendo.getPos() == Extendo.MAX) {
+        if (extendoout) {
             intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
         } else {
             intakeWrist.setState(IntakeWrist.intakeWristState.SUPEROUT);
