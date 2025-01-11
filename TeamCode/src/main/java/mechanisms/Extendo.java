@@ -17,7 +17,7 @@ public class Extendo {
     private DcMotorEx extendo;
 //    public enum extendoState {IN, OUT, MED};
     public static final int MAX = 2000;
-    public static final int MIN = -400;
+    public static final int MIN = -300;
     public static final int MED = 1000;
     private int targetPos = 0;
     public void init(HardwareMap hm) {
