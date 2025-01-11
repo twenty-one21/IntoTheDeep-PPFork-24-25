@@ -64,9 +64,11 @@ public class FullTeleOpRed extends LinearOpMode {
             slides.Loop();
             wrist.Loop();
             actionHandler.Loop(gp1, gp2); // :)
-            telemetry.addData("Loop time (ms)", loopTime);
-            telemetry.addData("Op time (ms)", opTime);
             telemetry.addData("High time (ms)", highestTime[0] + "; at " + highestTime[1]);
+            telemetry.addData("intaking? extendoing? transferring?", actionHandler.isIntaking() + " / " + actionHandler.isExtendoout() + " / " + actionHandler.isTransferring());
+            telemetry.addData("slides L/R ", slides.getLPos() + " " + slides.getRPos());
+            telemetry.addData("intakewrist state", intakeWrist.getState());
+            telemetry.addData("red? / yellow? / blue?", colorsensor.sensorIsRed() + " " + colorsensor.sensorIsYellow() + " " + colorsensor.sensorIsBlue());
             telemetry.update();
             if (loopTime>highestTime[0] || (highestTime[1]-opTime > 5000)) { //If loop time is greater than the highest time OR 5 seconds have passed since last highest time
                 highestTime[0] = loopTime; //set highest time to loop time

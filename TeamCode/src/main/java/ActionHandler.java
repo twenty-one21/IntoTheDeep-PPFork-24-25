@@ -1,3 +1,5 @@
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,8 +17,8 @@ public class ActionHandler {
     private IntakeWrist intakeWrist;
     private Colorsensor colorSensor;
 
-    private boolean intaking, transferring = false;
-    private boolean extendoout = false;
+    private static boolean intaking, transferring = false;
+    private static boolean extendoout = false;
 
     private String alliance;
 
@@ -52,6 +54,10 @@ public class ActionHandler {
         intakeWrist = iw;
         colorSensor = cs;
         this.alliance = alliance;
+        bar.setState(Bar.BarState.NEUTRAL);
+        claw.setState(Claw.ClawState.CLOSE);
+        wrist.setState(Wrist.wristState.NEUTRAL);
+        extendo.setTargetPos(Extendo.MIN);
     }
 
     public void Loop(Gamepad gp1, Gamepad gp2) {
@@ -105,14 +111,18 @@ public class ActionHandler {
             extendoout = true;
         }
         if (gp1.right_trigger > 0.5){
-            intake.setState(Intake.intakeState.OUT);
+            extendo.setTargetPos(Extendo.MAX);
+            extendoout = true;
+            if (intakeWrist.currentState != IntakeWrist.intakeWristState.IN) {
+                intake.setState(Intake.intakeState.OUT);
+            }
         }
         if (gp1.left_trigger > 0.5){
             extendo.setTargetPos(Extendo.MIN);
             extendoout = false;
         }
         if (gp1.options) {
-            intake.setState(Intake.intakeState.STOP);
+            intake.setState(Intake.intakeState.OUT);
         }
 
         //reset
@@ -147,15 +157,16 @@ public class ActionHandler {
                 }
                 break;
             case TRANSFER_STAGE_2:
-                if (elapsedMs >= 500) {
-                    intake.setState(Intake.intakeState.OUT);
+                if (elapsedMs >= 100) {
+//                    intake.setState(Intake.intakeState.OUT);
+                    claw.setState(Claw.ClawState.OPEN);
+                    Log.d("hello", "hello!!");
                     currentActionState = ActionState.TRANSFER_STAGE_3;
                     timer.reset();
                 }
                 break;
             case TRANSFER_STAGE_3:
-                if (elapsedMs >= 1000) {
-                    intake.setState(Intake.intakeState.STOP);
+                if (elapsedMs >= 600) {
                     bar.setState(Bar.BarState.TRANSFER);
                     wrist.setState(Wrist.wristState.TRANSFER);
                     currentActionState = ActionState.TRANSFER_STAGE_4;
@@ -164,7 +175,7 @@ public class ActionHandler {
                 break;
             case TRANSFER_STAGE_4:
                 if (elapsedMs >= 250) {
-                    claw.setState(Claw.ClawState.OPEN);
+                    claw.setState(Claw.ClawState.CLOSE);
                     currentActionState = ActionState.TRANSFER_STAGE_5;
                     timer.reset();
                 }
@@ -194,8 +205,9 @@ public class ActionHandler {
 
             //wall pickup
             case WALLPICKUP:
-                if (elapsedMs >= 700){
+                if (elapsedMs >= 500){
                     bar.setState(Bar.BarState.WALL);
+                    wrist.setState(Wrist.wristState.WALL);
                     intakeWrist.setState(IntakeWrist.intakeWristState.IN);
                     currentActionState = ActionState.IDLE;
                 }
@@ -270,7 +282,6 @@ public class ActionHandler {
     }
 
     private void wallPickup() {
-        wrist.setState(Wrist.wristState.WALL);
         slides.setTargetPos(Slides.GROUND);
         currentActionState = ActionState.WALLPICKUP;
         timer.reset();
@@ -306,7 +317,6 @@ public class ActionHandler {
     private void transfer() {
         bar.setState(Bar.BarState.NEUTRAL);
         wrist.setState(Wrist.wristState.TRANSFER);
-        claw.setState(Claw.ClawState.CLOSE);
         intakeWrist.setState(IntakeWrist.intakeWristState.IN);
         currentActionState = ActionState.TRANSFER_STAGE_1;
         timer.reset();
@@ -320,13 +330,12 @@ public class ActionHandler {
         wrist.setState(Wrist.wristState.TRANSFER);
         currentActionState = ActionState.NUDGE1;
         timer.reset();
-
     }
 
     public void intakeCheck() { //Thanks chatgpt
         if (intaking) {
             // Wait for 300ms before checking again
-            if (intakeTimer.milliseconds() >= 300) {
+            if (intakeTimer.milliseconds() >= 600) {
                 if (!waitingForSecondCheck) {
                     // First check: Determine if the color is correct
                     boolean correctColor = (alliance.equals("red") && (colorSensor.sensorIsRed() || colorSensor.sensorIsYellow()))
@@ -384,4 +393,9 @@ public class ActionHandler {
         currentActionState = ActionState.RESETEXTENDO;
         timer.reset();
     }
+    public boolean isIntaking() {
+        return intaking;
+    }
+    public boolean isTransferring() {return transferring;}
+    public boolean isExtendoout() {return extendoout;}
 }
