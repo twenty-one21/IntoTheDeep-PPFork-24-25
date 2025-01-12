@@ -9,9 +9,12 @@ import static com.pedropathing.follower.FollowerConstants.leftRearMotorDirection
 import static com.pedropathing.follower.FollowerConstants.rightFrontMotorDirection;
 import static com.pedropathing.follower.FollowerConstants.rightRearMotorDirection;
 
+import android.graphics.Point;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -49,7 +52,9 @@ public class LocalizationTest extends OpMode {
     private DcMotorEx rightFront;
     private DcMotorEx rightRear;
     private List<DcMotorEx> motors;
-
+    public static double startX = 0.000;
+    public static double startY = 0.000;
+    public static double startHeading = 0.000;
     /**
      * This initializes the PoseUpdater, the mecanum drive motors, and the FTC Dashboard telemetry.
      */
@@ -57,6 +62,7 @@ public class LocalizationTest extends OpMode {
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
         poseUpdater = new PoseUpdater(hardwareMap);
+        poseUpdater.setStartingPose(new Pose(startX, startY, startHeading));
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 

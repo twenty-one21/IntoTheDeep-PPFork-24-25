@@ -137,6 +137,12 @@ public class Auto_5_0 extends OpMode {
                 break;
             case 1:
                 if (!follower.isBusy()) {
+                    //Hello!
+                    setPathState(101);
+                }
+                break;
+            case 101:
+                if (pathTime.getElapsedTimeSeconds()>1) {
                     slides.setTargetPos(Slides.LOW);
                     setPathState(2);
                 }
@@ -149,7 +155,7 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 3:
-                if ((Math.abs(PREPARE1POSE.getX() - follower.getPose().getX()) <= 1) && (Math.abs(PREPARE1POSE.getY() - follower.getPose().getY()) <= 1)) {
+                if (pathTime.getElapsedTimeSeconds()>1) {
                     extendo.setTargetPos(Extendo.MAX);
                     intakeWrist.setState(IntakeWrist.intakeWristState.OUT);
                     setPathState(4);
@@ -186,16 +192,18 @@ public class Auto_5_0 extends OpMode {
                 }
                 break;
             case 9:
-                if (pathTime.getElapsedTimeSeconds() > 0.5) { //expected to be too early as of jan 5
-                    extendo.setTargetPos(Extendo.MIN);
-                    bar.setState(Bar.BarState.WALL);
-                    wrist.setState(Wrist.wristState.WALL);
+                if (!follower.isBusy()) {
+                    follower.followPath(push3ToWall);
                     setPathState(10);
                 }
                 break;
+
             case 10:
-                if (!follower.isBusy()) {
-                    follower.followPath(push3ToWall);
+                if (pathTime.getElapsedTimeSeconds() > 0.5) { //expected to be too early as of jan 5
+                    extendo.setTargetPos(Extendo.MIN);
+                    intakeWrist.setState(IntakeWrist.intakeWristState.IN);
+                    bar.setState(Bar.BarState.WALL);
+                    wrist.setState(Wrist.wristState.WALL);
                     setPathState(11);
                 }
                 break;

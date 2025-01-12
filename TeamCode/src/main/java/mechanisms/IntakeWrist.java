@@ -9,7 +9,7 @@ public class IntakeWrist {
     public intakeWristState currentState = intakeWristState.IN;
     public final double IN = 0.000;
     public final double OUT = 0.850; //Extendo out
-    public final double SUPEROUT = 0.91; //Extendo in
+    public final double SUPEROUT = 0.92; //Extendo in
     public void init(HardwareMap hm) {
         intakeWrist = hm.get(Servo.class, "intakeWrist");
     }
